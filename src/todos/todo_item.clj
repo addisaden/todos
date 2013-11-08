@@ -31,6 +31,12 @@
                           :todos (vec (for [i @sub-todos]
                                    ((i :plain))))
                           })
+     :print       (fn [pre-string]
+                      (println (format "%s[ %s ] %s" pre-string (if @done "X" " ") @todo-name))
+                      (doseq [note @notes] (println (format "%s    | - %s" pre-string note)))
+                      (doseq [item @sub-todos] ((item :print) (str pre-string "    | ")))
+                      nil
+                      )
      }))
 
 ; (atom []) cant be saved! be aware to build a transformfunction
