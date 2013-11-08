@@ -5,13 +5,16 @@
   (let [todo-name (atom n)
         done      (atom false)
         notes     (atom [])]
-    {:name     (fn [] @todo-name)
-     :done?    (fn [] @done)
-     :notes    (fn [] @notes)
-     :rename   (partial reset! todo-name)
-     :set-done (partial reset! done)
-     :add-note (partial swap! notes conj)
-     :plain    (fn [] {:name @todo-name :done? @done :notes @notes})
+    {:name     (fn [] @todo-name)           ; fn Get name   []
+     :done?    (fn [] @done)                ; fn is done?   []
+     :notes    (fn [] @notes)               ; fn Get notes  []
+     :rename   (partial reset! todo-name)   ; fn Rename     [string]
+     :set-done (partial reset! done)        ; fn set done   [true/false]
+     :add-note (partial swap! notes conj)   ; fn add a note [string]
+     :plain    (fn [] {:name @todo-name     ; fn transform atoms in normal data
+                       :done? @done         ;    atoms cant be saved!
+                       :notes @notes
+                       })
      }))
 
 ; (atom []) cant be saved! be aware to build a transformfunction
