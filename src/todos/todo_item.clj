@@ -25,7 +25,6 @@
                                              (fn [e] (vec (remove #(= % sub-todo-item) e)))
                                              ))
 
-     ; BUGNOTE: STRING DOESNT SAVE CORRECTLY ON SPIT!
      :plain       (fn [] {:name @todo-name     ; fn transform atoms in normal data
                           :done? @done         ;    atoms cant be saved!
                           :notes @notes

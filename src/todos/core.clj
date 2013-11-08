@@ -20,6 +20,7 @@
     ((sub-b :note-add) "arbeit arbeit")
     ((todolist :print) "")
     (println ((todolist :plain)))
+    (storage/save-data ((todolist :plain)))
     ))
 
 (defn -main
