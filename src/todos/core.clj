@@ -1,7 +1,8 @@
 (ns todos.core
-  (:gen-class))
+  (:gen-class)
+  (:require [todos.storage :as storage]))
 
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (println "Hello, World!"))
+  (println (storage/load-data [])))
