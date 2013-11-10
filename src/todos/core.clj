@@ -2,7 +2,8 @@
   (:gen-class)
   (:require [todos.input :as inp])
   (:require [todos.todo-item :as t-item])
-  (:require [todos.storage :as storage]))
+  (:require [todos.storage :as storage])
+  (:require [clojure.string :as stri]))
 
 (defn demo
   "This is currently just a demo!"
@@ -36,12 +37,17 @@
   (do
     (doseq [i @current-stack]
       (println (format "> %s <" ((i :name)) )))
-    (let [[cmd & args] (inp/user-cmd-input ">> ")]
+    (let [[cmd & args] (inp/user-cmd-input ">> ")
+          current-todo (or (first @current-stack) todolist)]
       (cond
         (= cmd "ls")
-        (( ;evaluate the print of current todolist
-          (or (first @current-stack) todolist)
-          :print) "")
+        ((current-todo :print) "")
+        ;
+        (= cmd "create")
+        ((current-todo :todo-add) (t-item/todo-create (stri/join " " args)))
+        ;
+        (= cmd "note")
+        ((current-todo :note-add) (stri/join " " args))
         )
       ; exit clause
       (if (not= cmd "exit")
