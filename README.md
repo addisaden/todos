@@ -1,32 +1,16 @@
 # todos
 
-FIXME: description
+todos is a small tool to manage nested todolists.
 
 ## Installation
 
-Download from http://example.com/FIXME.
+Download from http://uploads.23g.eu/clojure/todos-0.1.0-standalone.jar
 
 ## Usage
 
-FIXME: explanation
+Start the app and type help to get started.
 
-    $ java -jar todos-0.1.0-standalone.jar [args]
-
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+    $ java -jar todos-0.1.0-standalone.jar
 
 ## License
 
