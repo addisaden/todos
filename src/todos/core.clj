@@ -41,10 +41,29 @@
     (println ((todolist :name)))
     (let [[cmd & args] (inp/user-cmd-input ">> ")
           current-todo (or (first @current-stack) todolist)
-          joined-args  (stri/join " " args)]
+          joined-args  (stri/join " " args)
+          find-by-name (fn [todos-seq compare-name]
+                         (loop [todos todos-seq]
+                           (cond
+                             (empty? todos)
+                             nil
+                             (= (((first todos) :name)) compare-name)
+                             (first todos)
+                             :else
+                             (recur (rest todos))
+                             )))
+          ]
       (cond
+        ;
+        ; show
+        ;
         (= cmd "ls")
         ((current-todo :print) "")
+        ;
+        (= cmd "plain")
+        (println ((current-todo :plain)))
+        ;
+        ; create
         ;
         (= cmd "create")
         ((current-todo :todo-add) (t-item/todo-create joined-args))
@@ -52,8 +71,27 @@
         (= cmd "note")
         ((current-todo :note-add) joined-args)
         ;
-        (= cmd "plain")
-        (println ((current-todo :plain)))
+        ; manipulation
+        ;
+        (= cmd "done")
+        (if (empty? args)
+          ((current-todo :set-done) true)
+          (let [m (find-by-name ((current-todo :todos)) joined-args)]
+            (if m
+              ((m :set-done) true)
+              (println "Konnte Todo nicht finden")
+              )))
+        ;
+        (= cmd "undone")
+        (if (empty? args)
+          ((current-todo :set-done) false)
+          (let [m (find-by-name ((current-todo :todos)) joined-args)]
+            (if m
+              ((m :set-done) false)
+              (println "Konnte Todo nicht finden")
+              )))
+        ;
+        ; navigation
         ;
         (= cmd "first")
         (let [ft (first ((current-todo :todos)))]
@@ -66,10 +104,17 @@
         (swap! current-stack rest)
         ;
         (= cmd "cd")
-        (loop [todos ((current-todo :todos))]
-          (if (= (((first todos) :name)) joined-args)
-            (swap! current-stack conj (first todos))
-            (recur (rest todos))
+        (let [m (find-by-name ((current-todo :todos)) joined-args)]
+          (if m
+            (swap! current-stack conj m)
+            (println (format "Es existiert kein Subtodo namens \"%s\"." joined-args))
+            ))
+        ;
+        (= cmd "nth")
+        (let [n (- (read-string joined-args) 1)]
+          (if (and (integer? n) (>= n 0) (< n (count ((current-todo :todos)))))
+            (swap! current-stack conj (nth ((current-todo :todos)) n))
+            (println "Id ist ungültig. Es gibt nur" (count ((current-todo :todos))))
             ))
         )
       ; exit clause
