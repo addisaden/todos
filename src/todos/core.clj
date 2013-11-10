@@ -27,7 +27,7 @@
 (def todolist
   (t-item/todo-load-from-plain
     (storage/load-data
-      (((t-item/todo-create "< t o d o s >") :plain)) ; if file cant be read this is the default.
+      (((t-item/todo-create "todos") :plain)) ; if file cant be read this is the default.
       )))
 
 (def current-stack (atom '() )) ; this have the subpath of opened todos. (subpath in todolist)
@@ -35,19 +35,42 @@
 (defn command-repl
   []
   (do
+    (println)
     (doseq [i @current-stack]
-      (println (format "> %s <" ((i :name)) )))
+      (print (format "%s <- " ((i :name)) )))
+    (println ((todolist :name)))
     (let [[cmd & args] (inp/user-cmd-input ">> ")
-          current-todo (or (first @current-stack) todolist)]
+          current-todo (or (first @current-stack) todolist)
+          joined-args  (stri/join " " args)]
       (cond
         (= cmd "ls")
         ((current-todo :print) "")
         ;
         (= cmd "create")
-        ((current-todo :todo-add) (t-item/todo-create (stri/join " " args)))
+        ((current-todo :todo-add) (t-item/todo-create joined-args))
         ;
         (= cmd "note")
-        ((current-todo :note-add) (stri/join " " args))
+        ((current-todo :note-add) joined-args)
+        ;
+        (= cmd "plain")
+        (println ((current-todo :plain)))
+        ;
+        (= cmd "first")
+        (let [ft (first ((current-todo :todos)))]
+          (if ft
+            (swap! current-stack conj ft)
+            (println "Es existieren keine Subtodos.")
+            ))
+        ;
+        (and (= cmd "cd") (= joined-args ".."))
+        (swap! current-stack rest)
+        ;
+        (= cmd "cd")
+        (loop [todos ((current-todo :todos))]
+          (if (= (((first todos) :name)) joined-args)
+            (swap! current-stack conj (first todos))
+            (recur (rest todos))
+            ))
         )
       ; exit clause
       (if (not= cmd "exit")
