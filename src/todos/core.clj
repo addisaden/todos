@@ -5,25 +5,6 @@
   (:require [todos.storage :as storage])
   (:require [clojure.string :as stri]))
 
-(defn demo
-  "This is currently just a demo!"
-  []
-  (let
-    [todolist (t-item/todo-load-from-plain (storage/load-data
-                                             (((t-item/todo-create "main") :plain))
-                                             ))
-     sub-a    (t-item/todo-create (inp/user-str-input "Beispielname für SubTodo-A: "))
-     sub-b    (t-item/todo-create (inp/user-str-input "Beispielname für SubTodo-B: "))]
-    ((todolist :note-add) (inp/user-str-input "Beispielnotiz: "))
-    ((todolist :todo-add) sub-a)
-    ((todolist :todo-add) sub-b)
-    ((sub-a :set-done) true)
-    ((sub-b :note-add) "arbeit arbeit")
-    ((todolist :print) "")
-    (println ((todolist :plain)))
-    (storage/save-data ((todolist :plain)))
-    ))
-
 (def todolist
   (t-item/todo-load-from-plain
     (storage/load-data
@@ -70,6 +51,19 @@
         ;
         (= cmd "note")
         ((current-todo :note-add) joined-args)
+        ;
+        ; remove
+        ;
+        (= cmd "remove")
+        (let [m (find-by-name ((current-todo :todos)) joined-args)]
+          (if (and m (= "yes" (inp/user-str-input
+                                (format "Are you sure to delete \"%s\"? (yes/no) " ((m :name)))
+                                )))
+            ((current-todo :todo-rm) m)
+            ))
+        ;
+        (= cmd "rm-note")
+        ((current-todo :note-rm) joined-args)
         ;
         ; manipulation
         ;
@@ -125,5 +119,8 @@
 (defn -main
   "Start the demo ..."
   [& args]
-  (command-repl))
+  (do
+    (command-repl)
+    (storage/save-data ((todolist :plain)))
+    ))
 
