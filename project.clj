@@ -1,4 +1,4 @@
-(defproject todos "0.1.0"
+(defproject todos "0.1.1-DEVELOP"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"

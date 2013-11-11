@@ -31,6 +31,14 @@
                           :todos (vec (for [i @sub-todos]
                                    ((i :plain))))
                           })
+     :status      (fn []
+                    (let [data-dones (count (filter #((% :done?)) @sub-todos))
+                          data-todos-all (count @sub-todos)
+                          count-notes (count @notes)
+                          status-str (format "notes: %s todos: %s/%s" count-notes data-dones data-todos-all)]
+                      (do
+                        (println (format "%s   [%s] %s" status-str (if @done "X" " ") @todo-name))
+                        )))
      :print       (fn [pre-string]
                       (println (format "%s[ %s ] %s" pre-string (if @done "X" " ") @todo-name))
                       (doseq [note @notes] (println (format "%s    | - %s" pre-string note)))

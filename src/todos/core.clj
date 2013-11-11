@@ -38,10 +38,16 @@
         ;
         ; show
         ;
-        (= cmd "ls")
+        (and (= cmd "ls") (= joined-args "-a"))
         (do
           (doseq [n ((current-todo :notes))] (println (format "- %s" n)))
           (doseq [t ((current-todo :todos))] ((t :print) ""))
+          )
+        ;
+        (= cmd "ls")
+        (do
+          (doseq [n ((current-todo :notes))] (println (format "- %s" n)))
+          (doseq [t ((current-todo :todos))] ((t :status)))
           )
         ;
         (= cmd "plain")
@@ -128,6 +134,7 @@
           (println "s h o w")
           (println)
           (println "ls             - list the todos (on current navigation)")
+          (println "ls -a          - list the todos recursively")
           (println "plain          - shows the raw data")
           (println)
           (println "c r e a t e")
