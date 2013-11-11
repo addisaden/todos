@@ -134,6 +134,7 @@
         (do
           (println "commands:")
           (println)
+          (println "save           - save the current todolist")
           (println "exit           - quit the app")
           (println)
           (println "s h o w")
