@@ -36,6 +36,11 @@
           ]
       (cond
         ;
+        ; save
+        ;
+        (= cmd "save")
+        (storage/save-data ((todolist :plain)))
+        ;
         ; show
         ;
         (and (= cmd "ls") (= joined-args "-a"))
