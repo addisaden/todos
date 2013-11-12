@@ -2,6 +2,16 @@
 
 todos is a small tool to manage nested todolists.
 
+## Compile
+
+- Leiningen and Git is required
+
+    $ git clone https://github.com/addisaden/todos.git
+    $ cd todos
+    $ lein uberjar
+
+The new Jar-File is now in ./target as standalone
+
 ## Installation
 
 Download from http://uploads.23g.eu/clojure/todos-0.1.1-standalone.jar
@@ -10,7 +20,7 @@ Download from http://uploads.23g.eu/clojure/todos-0.1.1-standalone.jar
 
 Start the app and type help to get started.
 
-    $ java -jar todos-0.1.0-standalone.jar
+    $ java -jar todos-0.1.2-alpha-standalone.jar
 
 ## License
 

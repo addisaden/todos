@@ -5,7 +5,15 @@
   (let [todo-name (atom n)
         done      (atom false)
         notes     (atom [])
-        sub-todos (atom [])]
+        sub-todos (atom [])
+        status-done (fn [] (if (= 0 (count @sub-todos))
+                              1
+                              (apply (partial *
+                                              (/ (count (filter #((% :done?)) @sub-todos))
+                                                 (count @sub-todos)))
+                                     (for [i @sub-todos] ((i :status-done)) )
+                                     )))
+        ]
     {:name        (fn [] @todo-name)           ; fn Get name
      :rename      (partial reset! todo-name)   ; fn Rename     [string]
 
@@ -31,11 +39,13 @@
                           :todos (vec (for [i @sub-todos]
                                    ((i :plain))))
                           })
+     :status-done status-done
      :status      (fn []
                     (let [data-dones (count (filter #((% :done?)) @sub-todos))
                           data-todos-all (count @sub-todos)
                           count-notes (count @notes)
-                          status-str (format "notes: %s todos: %s/%s" count-notes data-dones data-todos-all)]
+                          percent-dones (format "%.1f" (* 100 (float (status-done))))
+                          status-str (format "notes: %3s todos: %3s/%-3s %5s%%" count-notes data-dones data-todos-all percent-dones)]
                       (do
                         (println (format "%s   [%s] %s" status-str (if @done "X" " ") @todo-name))
                         )))
