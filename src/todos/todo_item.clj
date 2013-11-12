@@ -7,12 +7,14 @@
         notes     (atom [])
         sub-todos (atom [])
         status-done (fn [] (if (= 0 (count @sub-todos))
-                              1
-                              (apply (partial *
-                                              (/ (count (filter #((% :done?)) @sub-todos))
-                                                 (count @sub-todos)))
-                                     (for [i @sub-todos] ((i :status-done)) )
-                                     )))
+                              (if @done 1 0)
+                              (/ (apply (partial +
+                                                 (/ (count (filter #((% :done?)) @sub-todos))
+                                                    (count @sub-todos))
+                                                 (if @done 1 0))
+                                        (for [i @sub-todos] ((i :status-done)) ))
+                                 (inc (count  @sub-todos))
+                                 )))
         ]
     {:name        (fn [] @todo-name)           ; fn Get name
      :rename      (partial reset! todo-name)   ; fn Rename     [string]
