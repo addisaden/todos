@@ -6,9 +6,11 @@ todos is a small tool to manage nested todolists.
 
 - Leiningen and Git is required
 
+    ```shell
     $ git clone https://github.com/addisaden/todos.git
     $ cd todos
     $ lein uberjar
+    ```
 
 The new Jar-File is now in ./target as standalone
 
