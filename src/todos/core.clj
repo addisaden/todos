@@ -2,9 +2,7 @@
   (:gen-class)
   (:use todos.status)
   (:require [todos.input :as inp])
-  (:require [todos.todo-item :as t-item])
   (:require [todos.storage :as storage])
-  (:require [clojure.string :as stri])
   (:require [todos.executor.core :as t-core]))
 
 
@@ -15,20 +13,7 @@
     (doseq [i @current-stack]
       (print (format "[%s] %s <- " (if ((i :done?)) "x" " ") ((i :name)) )))
     (println ((todolist :name)))
-    (let [[cmd & args] (inp/user-cmd-input ">> ")
-          current-todo (or (first @current-stack) todolist)
-          joined-args  (stri/join " " args)
-          find-by-name (fn [todos-seq compare-name]
-                         (loop [todos todos-seq]
-                           (cond
-                             (empty? todos)
-                             nil
-                             (= (((first todos) :name)) compare-name)
-                             (first todos)
-                             :else
-                             (recur (rest todos))
-                             )))
-          ]
+    (let [[cmd & args] (inp/user-cmd-input ">> ")]
       ;
       ; save -> src/todos/executor/exec_save.clj
       ; show -> src/todos/executor/exec_show.clj
