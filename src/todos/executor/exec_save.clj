@@ -6,6 +6,9 @@
   []
   (storage/save-data ((todolist :plain))))
 
+(def help
+  { :save { :save "save the complete todolist" }})
+
 (defn is-cmd?
   [cmd]
   (= cmd "save"))

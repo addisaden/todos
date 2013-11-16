@@ -33,22 +33,7 @@
         ;
         ; save -> src/todos/executor/exec_save.clj
         ;
-        ; show
-        ;
-        (and (= cmd "ls") (= joined-args "-a"))
-        (do
-          (doseq [n ((current-todo :notes))] (println (format "- %s" n)))
-          (doseq [t ((current-todo :todos))] ((t :print) ""))
-          )
-        ;
-        (= cmd "ls")
-        (do
-          (doseq [n ((current-todo :notes))] (println (format "- %s" n)))
-          (doseq [t ((current-todo :todos))] ((t :status)))
-          )
-        ;
-        (= cmd "plain")
-        (println ((current-todo :plain)))
+        ; show -> src/todos/executor/exec_show.clj
         ;
         ; create
         ;

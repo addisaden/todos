@@ -1,6 +1,7 @@
 (ns todos.executor.core
   (:use todos.status)
-  (:require [todos.executor.exec-save :as exec-save]))
+  (:require [todos.executor.exec-save :as exec-save])
+  (:require [todos.executor.exec-show :as exec-show]))
 
 (defn exec
   "The Executor of the todos-repl"
@@ -8,6 +9,9 @@
   (cond
     (exec-save/is-cmd? cmd)
     (apply exec-save/run-cmd (cons cmd args))
+
+    (exec-show/is-cmd? cmd)
+    (apply exec-show/run-cmd (cons cmd args))
 
     (not= cmd "exit")
     (do
