@@ -1,17 +1,12 @@
 (ns todos.core
   (:gen-class)
+  (:use todos.status)
   (:require [todos.input :as inp])
   (:require [todos.todo-item :as t-item])
   (:require [todos.storage :as storage])
-  (:require [clojure.string :as stri]))
+  (:require [clojure.string :as stri])
+  (:require [todos.executor.core :as t-core]))
 
-(def todolist
-  (t-item/todo-load-from-plain
-    (storage/load-data
-      (((t-item/todo-create "todos") :plain)) ; if file cant be read this is the default.
-      )))
-
-(def current-stack (atom '() )) ; this have the subpath of opened todos. (subpath in todolist)
 
 (defn command-repl
   []
@@ -131,40 +126,7 @@
         ; help
         ;
         (not= cmd "exit")
-        (do
-          (println "commands:")
-          (println)
-          (println "save           - save the current todolist")
-          (println "exit           - quit the app")
-          (println)
-          (println "s h o w")
-          (println)
-          (println "ls             - list the todos (on current navigation)")
-          (println "ls -a          - list the todos recursively")
-          (println "plain          - shows the raw data")
-          (println)
-          (println "c r e a t e")
-          (println)
-          (println "create <str>   - create a new todo on the current todo")
-          (println "note <str>     - create a note on current todo")
-          (println)
-          (println "r e m o v e")
-          (println)
-          (println "remove <str>   - remove todolist with the name of str")
-          (println "rm-note <str>  - remove the note with the content of str")
-          (println)
-          (println "m a n i p u l a t i o n")
-          (println)
-          (println "rename <str>   - rename the current todo")
-          (println "done [<str>]   - set todo (str or current) to done")
-          (println "undone [<str>] - reverse of done")
-          (println)
-          (println "n a v i g a t i o n")
-          (println)
-          (println "cd ..          - navigate to the parent todo")
-          (println "cd <str>       - navigate to todo with given name")
-          (println "nth <n>        - navigate to todo with position of n (1..)")
-          ))
+        (apply t-core/exec (cons cmd args)))
       ; exit clause
       (if (not= cmd "exit")
         (recur))
