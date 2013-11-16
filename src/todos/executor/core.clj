@@ -17,12 +17,10 @@
     (do
       (let [help-map (conj {"exit" {"exit" "quit the app"}} exec-save/help exec-show/help)
             count-length (apply max (map
-                                      (partial apply max)
-                                      (map
-                                        (fn [i]
-                                          (max (map count (keys (help-map i)))))
-                                        (keys help-map)
-                                        )))]
+                                      (fn [i]
+                                        (apply max (map count (keys (help-map i)))))
+                                      (keys help-map)
+                                      ))]
         (doseq [topic (sort (keys help-map))]
           (println)
           (println (clojure.string/join " " (seq topic)))
