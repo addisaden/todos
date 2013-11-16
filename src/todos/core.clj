@@ -39,28 +39,7 @@
         ;
         ; remove -> src/todos/executor/exec_remove.clj
         ;
-        ; manipulation
-        ;
-        (= cmd "rename")
-        ((current-todo :rename) joined-args)
-        ;
-        (= cmd "done")
-        (if (empty? args)
-          ((current-todo :set-done) true)
-          (let [m (find-by-name ((current-todo :todos)) joined-args)]
-            (if m
-              ((m :set-done) true)
-              (println "Cant find this todo.")
-              )))
-        ;
-        (= cmd "undone")
-        (if (empty? args)
-          ((current-todo :set-done) false)
-          (let [m (find-by-name ((current-todo :todos)) joined-args)]
-            (if m
-              ((m :set-done) false)
-              (println "Cant find this todo.")
-              )))
+        ; manipulation -> src/todos/executor/exec_manipulate.clj
         ;
         ; navigation
         ;

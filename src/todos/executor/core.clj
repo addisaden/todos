@@ -3,6 +3,7 @@
   (:require [todos.executor.exec-save :as exec-save])
   (:require [todos.executor.exec-create :as exec-create])
   (:require [todos.executor.exec-remove :as exec-remove])
+  (:require [todos.executor.exec-manipulate :as exec-manipulate])
   (:require [todos.executor.exec-show :as exec-show]))
 
 (defn exec
@@ -21,12 +22,16 @@
     (exec-remove/is-cmd? cmd)
     (apply exec-remove/run-cmd (cons cmd args))
 
+    (exec-manipulate/is-cmd? cmd)
+    (apply exec-manipulate/run-cmd (cons cmd args))
+
     (not= cmd "exit")
     (do
       (let [help-map (conj {"exit" {"exit" "quit the app"}}
                            exec-save/help
                            exec-create/help
                            exec-remove/help
+                           exec-manipulate/help
                            exec-show/help)
             count-length (apply max (map
                                       (fn [i]
@@ -40,13 +45,6 @@
           (doseq [cmd-help (sort (keys (help-map topic)))]
             (println (format (str "%-" count-length "s - %s") cmd-help ((help-map topic) cmd-help)))
             )))
-      (println)
-      (println)
-      (println "m a n i p u l a t i o n")
-      (println)
-      (println "rename <str>   - rename the current todo")
-      (println "done [<str>]   - set todo (str or current) to done")
-      (println "undone [<str>] - reverse of done")
       (println)
       (println "n a v i g a t i o n")
       (println)
