@@ -15,17 +15,21 @@
 
     (not= cmd "exit")
     (do
-      (println ((todolist :plain)))
-      (println "commands:")
-      (println)
-      (println "save           - save the current todolist")
-      (println "exit           - quit the app")
-      (println)
-      (println "s h o w")
-      (println)
-      (println "ls             - list the todos (on current navigation)")
-      (println "ls -a          - list the todos recursively")
-      (println "plain          - shows the raw data")
+      (let [help-map (conj {"exit" {"exit" "quit the app"}} exec-save/help exec-show/help)
+            count-length (apply max (map
+                                      (partial apply max)
+                                      (map
+                                        (fn [i]
+                                          (max (map count (keys (help-map i)))))
+                                        (keys help-map)
+                                        )))]
+        (doseq [topic (sort (keys help-map))]
+          (println)
+          (println (clojure.string/join " " (seq topic)))
+          (println)
+          (doseq [cmd-help (sort (keys (help-map topic)))]
+            (println (format (str "%-" count-length "s - %s") cmd-help ((help-map topic) cmd-help)))
+            )))
       (println)
       (println "c r e a t e")
       (println)

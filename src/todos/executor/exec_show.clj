@@ -20,6 +20,12 @@
   []
   (do (println (((current-todo-) :plain)))))
 
+(def help
+  {"show" {"ls"    "list the todos (on current navigation)"
+           "ls -a" "list the todos recursively"
+           "plain" "shows the raw data"
+           }})
+
 (defn is-cmd?
   [cmd]
   (or (= cmd "ls") (= cmd "plain")))
