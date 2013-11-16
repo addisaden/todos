@@ -37,18 +37,7 @@
         ;
         ; create -> src/todos/executor/exec_create.clj
         ;
-        ; remove
-        ;
-        (= cmd "remove")
-        (let [m (find-by-name ((current-todo :todos)) joined-args)]
-          (if (and m (= "yes" (inp/user-str-input
-                                (format "Are you sure to delete \"%s\"? (yes/no) " ((m :name)))
-                                )))
-            ((current-todo :todo-rm) m)
-            ))
-        ;
-        (= cmd "rm-note")
-        ((current-todo :note-rm) joined-args)
+        ; remove -> src/todos/executor/exec_remove.clj
         ;
         ; manipulation
         ;
@@ -99,7 +88,7 @@
             (println "Id doesnt exist. There are only" (count ((current-todo :todos))) "ids")
             ))
         ;
-        ; help
+        ; Start the Executor
         ;
         (not= cmd "exit")
         (apply t-core/exec (cons cmd args)))

@@ -11,3 +11,16 @@
 (def current-stack (atom '() )) ; this have the subpath of opened todos. (subpath in todolist)
 
 (defn current-todolist [] (or (first @current-stack) todolist))
+
+(defn find-todo-by-name
+  [todos-seq compare-name]
+  (loop [todos todos-seq]
+    (cond
+      (empty? todos)
+      nil
+      (= (((first todos) :name)) compare-name)
+      (first todos)
+      :else
+      (recur (rest todos))
+      )))
+
