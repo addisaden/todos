@@ -2,23 +2,22 @@
   (:use todos.status)
   (:require [clojure.string :as stri]))
 
-(defn current-todo- [] (or (first @current-stack) todolist))
-
 (defn ls-
   [k]
-  (do
-    (doseq [n (((current-todo-) :notes))] (println (format "- %s" n)))
-    (cond
-      (= k :print)
-      (doseq [t (((current-todo-) :todos))] ((t k) ""))
+  (let [current-todo (current-todolist)]
+    (do
+      (doseq [n ((current-todo :notes))] (println (format "- %s" n)))
+      (cond
+        (= k :print)
+        (doseq [t ((current-todo :todos))] ((t k) ""))
 
-      (= k :status)
-      (doseq [t (((current-todo-) :todos))] ((t k)))
-      )))
+        (= k :status)
+        (doseq [t ((current-todo :todos))] ((t k)))
+        ))))
 
 (defn plain-
   []
-  (do (println (((current-todo-) :plain)))))
+  (do (println (((current-todolist) :plain)))))
 
 (def help
   {"show" {"ls"    "list the todos (on current navigation)"

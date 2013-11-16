@@ -9,3 +9,5 @@
       )))
 
 (def current-stack (atom '() )) ; this have the subpath of opened todos. (subpath in todolist)
+
+(defn current-todolist [] (or (first @current-stack) todolist))

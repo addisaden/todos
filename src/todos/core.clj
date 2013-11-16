@@ -35,13 +35,7 @@
         ;
         ; show -> src/todos/executor/exec_show.clj
         ;
-        ; create
-        ;
-        (= cmd "create")
-        ((current-todo :todo-add) (t-item/todo-create joined-args))
-        ;
-        (= cmd "note")
-        ((current-todo :note-add) joined-args)
+        ; create -> src/todos/executor/exec_create.clj
         ;
         ; remove
         ;
