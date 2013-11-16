@@ -31,10 +31,7 @@
           ]
       (cond
         ;
-        ; save
-        ;
-        (= cmd "save")
-        (storage/save-data ((todolist :plain)))
+        ; save -> src/todos/executor/exec_save.clj
         ;
         ; show
         ;

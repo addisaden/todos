@@ -1,10 +1,14 @@
 (ns todos.executor.core
-  (:use todos.status))
+  (:use todos.status)
+  (:require [todos.executor.exec-save :as exec-save]))
 
 (defn exec
   "The Executor of the todos-repl"
   [cmd & args]
   (cond
+    (exec-save/is-cmd? cmd)
+    (apply exec-save/run-cmd (cons cmd args))
+
     (not= cmd "exit")
     (do
       (println ((todolist :plain)))

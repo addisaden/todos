@@ -16,6 +16,7 @@
   [data-to-save]
   (try (do
          (spit data-file-name data-to-save)
+         (println "data saved.")
          true)
        (catch Exception e
          (do (println (format "Error on save-data: %s" (.getMessage e)))
