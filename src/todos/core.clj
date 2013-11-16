@@ -29,48 +29,18 @@
                              (recur (rest todos))
                              )))
           ]
-      (cond
-        ;
-        ; save -> src/todos/executor/exec_save.clj
-        ;
-        ; show -> src/todos/executor/exec_show.clj
-        ;
-        ; create -> src/todos/executor/exec_create.clj
-        ;
-        ; remove -> src/todos/executor/exec_remove.clj
-        ;
-        ; manipulation -> src/todos/executor/exec_manipulate.clj
-        ;
-        ; navigation
-        ;
-        (= cmd "first")
-        (let [ft (first ((current-todo :todos)))]
-          (if ft
-            (swap! current-stack conj ft)
-            (println "Subtodos doesnt exists.")
-            ))
-        ;
-        (and (= cmd "cd") (= joined-args ".."))
-        (swap! current-stack rest)
-        ;
-        (= cmd "cd")
-        (let [m (find-by-name ((current-todo :todos)) joined-args)]
-          (if m
-            (swap! current-stack conj m)
-            (println (format "There is no subtodo with the name \"%s\"." joined-args))
-            ))
-        ;
-        (= cmd "nth")
-        (let [n (- (read-string joined-args) 1)]
-          (if (and (integer? n) (>= n 0) (< n (count ((current-todo :todos)))))
-            (swap! current-stack conj (nth ((current-todo :todos)) n))
-            (println "Id doesnt exist. There are only" (count ((current-todo :todos))) "ids")
-            ))
-        ;
-        ; Start the Executor
-        ;
-        (not= cmd "exit")
-        (apply t-core/exec (cons cmd args)))
+      ;
+      ; save -> src/todos/executor/exec_save.clj
+      ; show -> src/todos/executor/exec_show.clj
+      ; create -> src/todos/executor/exec_create.clj
+      ; remove -> src/todos/executor/exec_remove.clj
+      ; manipulation -> src/todos/executor/exec_manipulate.clj
+      ; navigation -> src/todos/executor/exec_navigate.clj
+      ;
+      ; Start the Executor
+      ;
+      (apply t-core/exec (cons cmd args))
+      ;
       ; exit clause
       (if (not= cmd "exit")
         (recur))

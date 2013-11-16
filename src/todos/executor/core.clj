@@ -4,6 +4,7 @@
   (:require [todos.executor.exec-create :as exec-create])
   (:require [todos.executor.exec-remove :as exec-remove])
   (:require [todos.executor.exec-manipulate :as exec-manipulate])
+  (:require [todos.executor.exec-navigate :as exec-navigate])
   (:require [todos.executor.exec-show :as exec-show]))
 
 (defn exec
@@ -25,6 +26,9 @@
     (exec-manipulate/is-cmd? cmd)
     (apply exec-manipulate/run-cmd (cons cmd args))
 
+    (exec-navigate/is-cmd? cmd)
+    (apply exec-navigate/run-cmd (cons cmd args))
+
     (not= cmd "exit")
     (do
       (let [help-map (conj {"exit" {"exit" "quit the app"}}
@@ -32,6 +36,7 @@
                            exec-create/help
                            exec-remove/help
                            exec-manipulate/help
+                           exec-navigate/help
                            exec-show/help)
             count-length (apply max (map
                                       (fn [i]
@@ -44,12 +49,5 @@
           (println)
           (doseq [cmd-help (sort (keys (help-map topic)))]
             (println (format (str "%-" count-length "s - %s") cmd-help ((help-map topic) cmd-help)))
-            )))
-      (println)
-      (println "n a v i g a t i o n")
-      (println)
-      (println "cd ..          - navigate to the parent todo")
-      (println "cd <str>       - navigate to todo with given name")
-      (println "nth <n>        - navigate to todo with position of n (1..)")
-      )))
+            ))))))
    
