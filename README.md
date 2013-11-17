@@ -16,7 +16,7 @@ The new Jar-File is now in ./target as standalone
 
 ## Installation
 
-Download from http://uploads.23g.eu/clojure/todos-0.1.1-standalone.jar
+Download from http://uploads.23g.eu/clojure/todos-0.1.2-alpha-standalone.jar
 
 ## Usage
 
