@@ -34,16 +34,21 @@
       (println "ID doesn't exist. There are only" (count ((current-todo :todos))) "ids")
       )))
 
+(defn cmd-last-
+  []
+  (swap! current-stack conj (last (((current-todolist) :todos)))))
+
 (def help
   {"navigation" {"cd .." "navigate to the parent todo"
                  "cd <str>" "navigate to todo with given name"
                  "nth <n>" "navigate to todo with position of n (1..)"
                  "first" "navigate to the first todolist"
+                 "last" "navigate to the last todolist"
                  }})
 
 (defn is-cmd?
   [cmd]
-  (or (= cmd "first") (= cmd "cd") (= cmd "nth")))
+  (or (= cmd "first") (= cmd "cd") (= cmd "nth") (= cmd "last")))
 
 (defn run-cmd
   [cmd & args]
@@ -59,4 +64,7 @@
 
     (= cmd "nth")
     (apply cmd-nth- args)
+
+    (= cmd "last")
+    (cmd-last-)
     ))
