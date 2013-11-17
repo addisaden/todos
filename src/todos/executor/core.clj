@@ -31,7 +31,7 @@
 
     (not= cmd "exit")
     (do
-      (let [help-map (conj {"exit" {"exit" "quit the app"}}
+      (let [help-map (conj {"exit" {"exit" "quit the app"} "help" {"help" "prints a detailed help"}}
                            exec-save/help
                            exec-create/help
                            exec-remove/help
@@ -43,11 +43,15 @@
                                         (apply max (map count (keys (help-map i)))))
                                       (keys help-map)
                                       ))]
-        (doseq [topic (sort (keys help-map))]
-          (println)
-          (println (clojure.string/join " " (seq topic)))
-          (println)
-          (doseq [cmd-help (sort (keys (help-map topic)))]
-            (println (format (str "%-" count-length "s - %s") cmd-help ((help-map topic) cmd-help)))
-            ))))))
+        (if (= cmd "help")
+          (doseq [topic (sort (keys help-map))]
+            (println)
+            (println (clojure.string/join " " (seq topic)))
+            (println)
+            (doseq [cmd-help (sort (keys (help-map topic)))]
+              (println (format (str "%-" count-length "s - %s") cmd-help ((help-map topic) cmd-help)))
+            ))
+          (doseq [topic (sort (keys help-map))]
+            (println (format "%s: %s" topic (clojure.string/join ", " (sort (keys (help-map topic)))))))
+          )))))
    
