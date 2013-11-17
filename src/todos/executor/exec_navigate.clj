@@ -30,7 +30,7 @@
         current-todo (current-todolist)
         n (read-string joined-args)]
     (if (and (integer? n) (>= (dec n) 0) (< (dec n) (count ((current-todo :todos)))))
-      (swap! current-stack conj (nth ((current-todo :todos)) n))
+      (swap! current-stack conj (nth ((current-todo :todos)) (dec n)))
       (println "ID doesn't exist. There are only" (count ((current-todo :todos))) "ids")
       )))
 
