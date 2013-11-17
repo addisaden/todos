@@ -5,6 +5,7 @@
   (:require [todos.executor.exec-remove :as exec-remove])
   (:require [todos.executor.exec-manipulate :as exec-manipulate])
   (:require [todos.executor.exec-navigate :as exec-navigate])
+  (:require [todos.executor.exec-remember :as exec-remember])
   (:require [todos.executor.exec-show :as exec-show]))
 
 (defn exec
@@ -29,6 +30,9 @@
     (exec-navigate/is-cmd? cmd)
     (apply exec-navigate/run-cmd (cons cmd args))
 
+    (exec-remember/is-cmd? cmd)
+    (apply exec-remember/run-cmd (cons cmd args))
+
     (not= cmd "exit")
     (do
       (let [help-map (conj {"exit" {"exit" "quit the app"} "help" {"help" "prints a detailed help"}}
@@ -37,6 +41,7 @@
                            exec-remove/help
                            exec-manipulate/help
                            exec-navigate/help
+                           exec-remember/help
                            exec-show/help)
             count-length (apply max (map
                                       (fn [i]
