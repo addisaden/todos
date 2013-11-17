@@ -13,7 +13,7 @@
                                                     (count @sub-todos))
                                                  (if @done 1 0))
                                         (for [i @sub-todos] ((i :status-done)) ))
-                                 (inc (count  @sub-todos))
+                                 (+ (count  @sub-todos) 2)
                                  )))
         ]
     {:name        (fn [] @todo-name)           ; fn Get name
