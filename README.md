@@ -16,13 +16,13 @@ The new Jar-File is now in ./target as standalone
 
 ## Installation
 
-Download from http://uploads.23g.eu/clojure/todos-0.1.2-alpha-standalone.jar
+Download from http://uploads.23g.eu/clojure/todos-0.1.3-standalone.jar
 
 ## Usage
 
 Start the app and type help to get started.
 
-    $ java -jar todos-0.1.2-alpha-standalone.jar
+    $ java -jar todos-0.1.3-standalone.jar
 
 ## License
 
