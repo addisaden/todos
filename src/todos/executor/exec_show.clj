@@ -11,6 +11,13 @@
         (= k :print)
         (doseq [t ((current-todo :todos))] ((t k) ""))
 
+        (= k :idstatus)
+        (loop [t ((current-todo :todos)) i 1]
+               (((first t) k) i)
+               (if (not (empty? (rest t)))
+                 (recur (rest t) (inc i))
+                 ))
+
         (= k :status)
         (doseq [t ((current-todo :todos))] ((t k)))
         ))))
@@ -22,6 +29,7 @@
 (def help
   {"show" {"ls"    "list the todos (on current navigation)"
            "ls -a" "list the todos recursively"
+           "ls -l" "list the todos with id"
            "plain" "shows the raw data"
            }})
 
@@ -35,6 +43,9 @@
     (cond
       (and (= cmd "ls") (= joined-args "-a"))
       (ls- :print)
+
+      (and (= cmd "ls") (= joined-args "-l"))
+      (ls- :idstatus)
 
       (= cmd "ls")
       (ls- :status)

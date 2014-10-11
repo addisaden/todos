@@ -42,6 +42,11 @@
                                    ((i :plain))))
                           })
      :status-done status-done
+     :idstatus    (fn [i]
+                    (println (format "%s : [%s] %s"
+                                     (str i)
+                                     (if @done "X" " ")
+                                     @todo-name)))
      :status      (fn []
                     (let [data-dones (count (filter #((% :done?)) @sub-todos))
                           data-todos-all (count @sub-todos)
