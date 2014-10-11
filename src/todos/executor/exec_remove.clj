@@ -10,8 +10,12 @@
     (println "You cant remove root")
     (let [current-todo (current-todolist)
           current-name ((current-todo :name))]
-      (println current-name)
-      )))
+      (if (= "yes" (inp/user-str-input
+                     (format "Ary you sure to delete \"%s\"? (yes/no) " current-name)
+                     ))
+        (println "Here we want to delete")
+        (println "canceled.")
+        ))))
 
 (defn remove-
   [joined-args]
