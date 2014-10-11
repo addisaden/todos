@@ -4,7 +4,7 @@ echo "Push to all remote repos."
 
 echo
 
-currentBranch = $(git branch)
+export currentBranch = $(git branch)
 
 for server in $(git remote)
 do
