@@ -4,6 +4,13 @@
   (:require [todos.todo-item :as t-item])
   (:require [clojure.string :as stri]))
 
+(defn remove-this-
+  []
+  (if (< (count @current-stack) 1)
+    (println "You cant remove root")
+    (println "You can delete this")
+    ))
+
 (defn remove-
   [joined-args]
   (let [current-todo (current-todolist)
@@ -20,18 +27,22 @@
 
 (def help
   {"remove" {"remove <str>" "remove todolist with the name of str"
+             "remove!" "remove current todolist if its not root"
              "rm-note <str>"   "remove the note with the content of str"
              }})
 
 (defn is-cmd?
   [cmd]
-  (or (= cmd "remove") (= cmd "rm-note")))
+  (or (= cmd "remove") (= cmd "remove!") (= cmd "rm-note")))
 
 (defn run-cmd
   [cmd & args]
   (let
     [joined-args (stri/join " " args)]
     (cond
+      (= cmd "remove!")
+      (remove-this-)
+
       (= cmd "remove")
       (remove- joined-args)
 
