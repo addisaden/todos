@@ -8,8 +8,10 @@
   []
   (if (< (count @current-stack) 1)
     (println "You cant remove root")
-    (println "You can delete this")
-    ))
+    (let [current-todo (current-todolist)
+          current-name ((current-todo :name))]
+      (println current-name)
+      )))
 
 (defn remove-
   [joined-args]
