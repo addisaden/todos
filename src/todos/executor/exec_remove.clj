@@ -5,9 +5,8 @@
   (:require [clojure.string :as stri]))
 
 (defn remove-
-  [& args]
+  [joined-args]
   (let [current-todo (current-todolist)
-        joined-args (stri/join " " args)
         m (find-todo-by-name ((current-todo :todos)) joined-args)]
     (if (and m (= "yes" (inp/user-str-input
                           (format "Are you sure to delete \"%s\"? (yes/no) " ((m :name)))
@@ -16,8 +15,8 @@
       )))
 
 (defn rm-note-
-  [& args]
-  (((current-todolist) :note-rm) (stri/join " " args)))
+  [joined-args]
+  (((current-todolist) :note-rm) joined-args))
 
 (def help
   {"remove" {"remove <str>" "remove todolist with the name of str"
@@ -30,11 +29,13 @@
 
 (defn run-cmd
   [cmd & args]
-  (cond
-    (= cmd "remove")
-    (apply remove- args)
+  (let
+    [joined-args (stri/join " " args)]
+    (cond
+      (= cmd "remove")
+      (remove- joined-args)
 
-    (= cmd "rm-note")
-    (apply rm-note- args)
-    ))
+      (= cmd "rm-note")
+      (rm-note- joined-args)
+      )))
 
