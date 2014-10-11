@@ -1,2 +1,4 @@
 github https://github.com/addisaden/todos.git
 domaingo /GIT/todos-clj.git
+adit	~/projects/todos.git
+digo	~/projects/todos.git
