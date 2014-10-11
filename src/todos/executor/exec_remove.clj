@@ -13,7 +13,9 @@
       (if (= "yes" (inp/user-str-input
                      (format "Ary you sure to delete \"%s\"? (yes/no) " current-name)
                      ))
-        (println "Here we want to delete")
+        (do
+          (swap! current-stack rest)
+          (((current-todolist) :todo-rm) current-todo))
         (println "canceled.")
         ))))
 

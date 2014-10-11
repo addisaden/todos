@@ -1,4 +1,4 @@
-(defproject todos "0.1.2-alpha"
+(defproject todos "0.1.3"
   :description "A small todo-tool for nested todolists written in clojure"
   :url "https://github.com/addisaden/todos"
   :license {:name "Eclipse Public License"
