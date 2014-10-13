@@ -1,6 +1,6 @@
 # todos
 
-todos is a samll command-line app which helps you to
+todos is a small command-line app which helps you to
 manage your todolist
 
 ## Compile
