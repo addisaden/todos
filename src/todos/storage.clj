@@ -5,7 +5,12 @@
 (defn load-data
   "Load data from data-file-name."
   [default-data]
-  (try (read-string (slurp data-file-name))
+  (try (read-string
+         (clojure.strin/replace
+           (slurp data-file-name)
+           #"\s+"
+           " "
+           ))
        (catch Exception e
          (do (println (format "Error on load-data: %s" (.getMessage e)))
              default-data
