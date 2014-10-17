@@ -8,18 +8,23 @@
         sub-todos (atom [])
         status-done (fn [] (if (= 0 (count @sub-todos))
                               (if @done 1 0)
-                              (/ (apply (partial +
-                                                 (/ (count (filter #((% :done?)) @sub-todos))
-                                                    (count @sub-todos))
-                                                 (if @done 1 0))
-                                        (for [i @sub-todos] ((i :status-done)) ))
-                                 (+ (count  @sub-todos) 2)
-                                 )))
+                              (/ (count
+                                   (filter
+                                     #((% :done?))
+                                     @sub-todos))
+                                 (-> @sub-todos
+                                     count
+                                     ))))
+        is-done (fn [] (if
+                           (= 0 (count @sub-todos))
+                           @done
+                           (>= (status-done) 1)
+                           ))
         ]
     {:name        (fn [] @todo-name)           ; fn Get name
      :rename      (partial reset! todo-name)   ; fn Rename     [string]
 
-     :done?       (fn [] @done)                ; fn is done?
+     :done?       is-done                      ; fn is done?
      :set-done    (partial reset! done)        ; fn set done   [true/false]
 
      :notes       (fn [] @notes)               ; fn Get notes
@@ -45,7 +50,7 @@
      :idstatus    (fn [i]
                     (println (format "%s : [%s] %s"
                                      (str i)
-                                     (if @done "X" " ")
+                                     (if (is-done) "X" " ")
                                      @todo-name)))
      :status      (fn []
                     (let [data-dones (count (filter #((% :done?)) @sub-todos))
@@ -54,10 +59,10 @@
                           percent-dones (format "%.1f" (* 100 (float (status-done))))
                           status-str (format "notes: %3s todos: %3s/%-3s %5s%%" count-notes data-dones data-todos-all percent-dones)]
                       (do
-                        (println (format "%s   [%s] %s" status-str (if @done "X" " ") @todo-name))
+                        (println (format "%s   [%s] %s" status-str (if (is-done) "X" " ") @todo-name))
                         )))
      :print       (fn [pre-string]
-                      (println (format "%s[ %s ] %s" pre-string (if @done "X" " ") @todo-name))
+                      (println (format "%s[ %s ] %s" pre-string (if (is-done) "X" " ") @todo-name))
                       (doseq [note @notes] (println (format "%s    | - %s" pre-string note)))
                       (doseq [item @sub-todos] ((item :print) (str pre-string "    | ")))
                       nil
