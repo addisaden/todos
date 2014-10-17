@@ -15,7 +15,12 @@
   "Save data to data-file-name."
   [data-to-save]
   (try (do
-         (spit data-file-name data-to-save)
+         (spit data-file-name 
+               (clojure.string/replace
+                 (str data-to-save)
+                 #"\s+"
+                 "\n"
+                 ))
          (println "data saved.")
          true)
        (catch Exception e
