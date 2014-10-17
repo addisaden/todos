@@ -6,7 +6,7 @@
   "Load data from data-file-name."
   [default-data]
   (try (read-string
-         (clojure.strin/replace
+         (clojure.string/replace
            (slurp data-file-name)
            #"\s+"
            " "
